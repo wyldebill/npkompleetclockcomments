@@ -7,6 +7,8 @@ import 'package:clock/clock_face.dart';
 
 typedef TimeProducer = DateTime Function();
 
+
+// aha, finally something that is stateful.  that means it will be updating ui and holding ui state
 class Clock extends StatefulWidget {
 
   final Color circleColor;
@@ -26,6 +28,7 @@ class Clock extends StatefulWidget {
          this.showHourHandleHeartShape = false,
          this.getCurrentTime = getSystemTime,
          this.updateDuration = const Duration(seconds: 1)});
+         //this.updateDuration = const Duration(milliseconds: 1)});
 
   static DateTime getSystemTime() {
     return new DateTime.now();
@@ -37,18 +40,31 @@ class Clock extends StatefulWidget {
   }
 }
 
+
+// hmm, the _Clock is a class that represents the state/ui for the Clock class above.  notice that just about
+// all the logic is in this State derived class instead of the Clock class above.
 class _Clock extends State<Clock> {
   Timer _timer;
   DateTime dateTime;
 
+
+  // standard class required to work with state.  similar to the reactjs, need to make sure the state is
+  // initialized so the state object and the ui are tied together
+  // the state properities that are tracked are dateTime and _timer.
   @override
   void initState() {
     super.initState();
     dateTime = new DateTime.now();
+
+    // every one second, call the setTime() method
     this._timer = new Timer.periodic(widget.updateDuration, setTime);
   }
 
+
+  // QUESTION:  how does the timer parameter get resolved/injected here?
   void setTime(Timer timer) {
+
+    // to update the state you have to call the setState() method instead of modifiying dateTime directly.  just like react
     setState(() {
       dateTime = new DateTime.now();
     });
@@ -64,7 +80,10 @@ class _Clock extends State<Clock> {
   Widget build(BuildContext context) {
     return new AspectRatio(
       aspectRatio: 1.0,
-      child: (widget.showBellsAndLegs)? new Stack(
+      child: (widget.showBellsAndLegs)?
+      
+      // draw the legs and bells....
+       new Stack(
           children: <Widget>[
             new Container(
               width: double.infinity,
@@ -75,7 +94,10 @@ class _Clock extends State<Clock> {
 
             buildClockCircle(context)
           ]
-      ) : buildClockCircle(context),
+      ) : 
+      
+      // otherewise, just build the clock face/circle
+      buildClockCircle(context),
 
     );
   }
@@ -88,7 +110,7 @@ class _Clock extends State<Clock> {
         color: widget.circleColor,
         boxShadow: [
           new BoxShadow(
-            offset: new Offset(0.0, 5.0),
+            offset: new Offset(0.0, 2.0),
             blurRadius: 5.0,
           )
         ],
