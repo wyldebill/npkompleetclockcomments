@@ -48,15 +48,17 @@ class AppClock extends StatelessWidget{
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
 
-          // finally, the clock widget!!
+          // finally, the clock widget!!  it is the child of the body widget and there is only one.  but, the children can 
+          // hold an array of widgets too
           children: <Widget>[
 
+            // the clock widget, contains all the widgets that make up the clock.
             new Clock(
-                circleColor: Colors.red,
-                showBellsAndLegs: false,
-                bellColor: Colors.green,
-                clockText: ClockText.arabic,
-                showHourHandleHeartShape: false,
+                circleColor: Colors.red,  // the ring around the clock face
+                showBellsAndLegs: false,  // we are skipping this part of the visual look of the clock.
+                bellColor: Colors.green,  // bells are part of the visual design and skipped here
+                clockText: ClockText.arabic,  // by default we will use arabic numerals, not roman numerals.
+                showHourHandleHeartShape: false,  // fancy visual on the hour hand, skipped here
             ),
           ],
         ),

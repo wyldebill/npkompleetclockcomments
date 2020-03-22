@@ -42,7 +42,7 @@ class ClockFace extends StatelessWidget{
              
 
               // 1...
-              // first child is the clock dial
+              // first child is the clock dial, the tic marks for minutes/hours and the text numerals
               new Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -57,7 +57,6 @@ class ClockFace extends StatelessWidget{
               // 2....
               //centerpoint
               // center of the clock face, just a circle 15px? wide and high.  black in color
-              // QUESTION: how does this wind up centered vertically and horizontally on the face? there's no 'center' type arguments specified
               new Center(
                 child: new Container(
                   width: 15.0,
@@ -70,7 +69,7 @@ class ClockFace extends StatelessWidget{
               ),
 
               // 3.....
-              // last child is the hands of the clock
+              // last child is the hands of the clock, the hour, minute and second hand
               new ClockHands(dateTime:dateTime, showHourHandleHeartShape: showHourHandleHeartShape),
               
 

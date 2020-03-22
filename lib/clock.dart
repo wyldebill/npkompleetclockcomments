@@ -11,6 +11,7 @@ typedef TimeProducer = DateTime Function();
 // aha, finally something that is stateful.  that means it will be updating ui and holding ui state
 class Clock extends StatefulWidget {
 
+  // variables that aren't stateful, tracked go here. 
   final Color circleColor;
   final bool showBellsAndLegs;
   final Color bellColor;
@@ -42,13 +43,13 @@ class Clock extends StatefulWidget {
 
 
 // hmm, the _Clock is a class that represents the state/ui for the Clock class above.  notice that just about
-// all the logic is in this State derived class instead of the Clock class above.
+// all the logic is in this State derived _Clock class instead of the Clock class above.
 class _Clock extends State<Clock> {
   Timer _timer;
   DateTime dateTime;
 
 
-  // standard class required to work with state.  similar to the reactjs, need to make sure the state is
+  // standard class required to work with state.  similar to reactjs, need to make sure the state is
   // initialized so the state object and the ui are tied together
   // the state properities that are tracked are dateTime and _timer.
   @override
@@ -80,9 +81,9 @@ class _Clock extends State<Clock> {
   Widget build(BuildContext context) {
     return new AspectRatio(
       aspectRatio: 1.0,
-      child: (widget.showBellsAndLegs)?  // ternary evalutor, should we draw the bells and legs?
+      child: (widget.showBellsAndLegs)?  // ternary evalutor, should we draw the bells and legs?  For this example, we don't draw the bells and legs
       
-      // draw the legs and bells....
+      // this is skipped
        new Stack(
           children: <Widget>[
             new Container(
@@ -96,7 +97,7 @@ class _Clock extends State<Clock> {
           ]
       ) : 
       
-      // otherwise, just build the clock face/circle
+      // ternary operator continues.  otherwise, just build the clock face/circle
       buildClockCircle(context),
 
     );
@@ -105,7 +106,7 @@ class _Clock extends State<Clock> {
   Container buildClockCircle(BuildContext context) {
     return new Container(
       width: double.infinity,
-      decoration: new BoxDecoration(   // builds the red clock outline, fills the space
+      decoration: new BoxDecoration(   // builds the red clock outline, as wide as the current container will allow
         shape: BoxShape.circle,
         color: widget.circleColor,
         boxShadow: [
