@@ -80,7 +80,7 @@ class _Clock extends State<Clock> {
   Widget build(BuildContext context) {
     return new AspectRatio(
       aspectRatio: 1.0,
-      child: (widget.showBellsAndLegs)?
+      child: (widget.showBellsAndLegs)?  // ternary evalutor, should we draw the bells and legs?
       
       // draw the legs and bells....
        new Stack(
@@ -96,7 +96,7 @@ class _Clock extends State<Clock> {
           ]
       ) : 
       
-      // otherewise, just build the clock face/circle
+      // otherwise, just build the clock face/circle
       buildClockCircle(context),
 
     );
@@ -105,18 +105,18 @@ class _Clock extends State<Clock> {
   Container buildClockCircle(BuildContext context) {
     return new Container(
       width: double.infinity,
-      decoration: new BoxDecoration(
+      decoration: new BoxDecoration(   // builds the red clock outline, fills the space
         shape: BoxShape.circle,
         color: widget.circleColor,
         boxShadow: [
-          new BoxShadow(
+          new BoxShadow(               // there is a small dropshadow 
             offset: new Offset(0.0, 2.0),
             blurRadius: 5.0,
           )
         ],
       ),
 
-      child: new ClockFace(
+      child: new ClockFace(           // the content of the Container is the ClockFace
           clockText : widget.clockText,
           showHourHandleHeartShape: widget.showHourHandleHeartShape,
           dateTime: dateTime,

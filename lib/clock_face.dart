@@ -9,7 +9,10 @@ class ClockFace extends StatelessWidget{
   final ClockText clockText;
   final bool showHourHandleHeartShape;
 
-  ClockFace({this.clockText = ClockText.arabic, this.showHourHandleHeartShape = false, this.dateTime});
+  ClockFace(
+    {this.clockText = ClockText.arabic, 
+  this.showHourHandleHeartShape = false, 
+  this.dateTime});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +26,10 @@ class ClockFace extends StatelessWidget{
         aspectRatio: 1.0,
 
 
-        // nested container, which has it's own child widget
+        // nested container, which has it's own child widget a Container
         child: new Container(
           width: double.infinity,
-          decoration: new BoxDecoration(
+          decoration: new BoxDecoration(  // finally, the face of the clock. white. expands to fit the space
             shape: BoxShape.circle,
             color: Colors.white,
           ),
@@ -36,8 +39,7 @@ class ClockFace extends StatelessWidget{
             // the stack has 3 children
             // QUESTION: how are they arranged by default? vertically?
             children: <Widget>[
-              //dial and numbers
-
+             
 
               // 1...
               // first child is the clock dial
@@ -55,7 +57,7 @@ class ClockFace extends StatelessWidget{
               // 2....
               //centerpoint
               // center of the clock face, just a circle 15px? wide and high.  black in color
-              // yes, there is a center widget you moron.  QUESTION: how does this wind up centered vertically and horizontally on the face? there's no 'center' type arguments specified
+              // QUESTION: how does this wind up centered vertically and horizontally on the face? there's no 'center' type arguments specified
               new Center(
                 child: new Container(
                   width: 15.0,

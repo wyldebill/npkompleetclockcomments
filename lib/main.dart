@@ -6,8 +6,9 @@ import 'package:clock/clock_text.dart';
 void main() => runApp(new MyApp());
 
 
-// the main, application which contains the clock stuff.  the main application doesn't have
-// any VISIBLE state changes/UI changes so it derives from stateless widget.
+// the main application which contains the clock stuff.  the main application doesn't have
+// any VISIBLE state changes/UI changes so it derives from stateless widget.  BUT, and this is important MyApp contains other 
+// widgets that WILL maintain state.
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// another widget, and still stateless??? hmmm
+// another widget, and still stateless??? hmmm.  Yes, nothing for state in this widget either.  But keep following down the rabbit hole here...
 class AppClock extends StatelessWidget{
 
   @override
