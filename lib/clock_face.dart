@@ -18,23 +18,23 @@ class ClockFace extends StatelessWidget{
   Widget build(BuildContext context) {
 
     // pad everything with a 10px space around it
-    return new Padding(
+    return  Padding(
       padding: const EdgeInsets.all(10.0),
 
       // padding has a single child widget, the aspect ratio
-      child: new AspectRatio(
+      child:  AspectRatio(
         aspectRatio: 1.0,
 
 
         // nested container, which has it's own child widget a Container
-        child: new Container(
+        child:  Container(
           width: double.infinity,
-          decoration: new BoxDecoration(  // finally, the face of the clock. white. expands to fit the space
+          decoration:  BoxDecoration(  // finally, the face of the clock. white. expands to fit the space
             shape: BoxShape.circle,
             color: Colors.white,
           ),
 
-          child: new Stack(
+          child:  Stack(
             
             // the stack has 3 children
             // QUESTION: how are they arranged by default? vertically? no, no no. you have this wrong.  stacks are more like layers that lie on top of each other.
@@ -60,7 +60,7 @@ class ClockFace extends StatelessWidget{
               //centerpoint
               // center of the clock face, just a circle 15px? wide and high.  black in color
                Center(
-                child: new Container(
+                child: Container(
                   width: 15.0,
                   height: 15.0,
                   decoration:  BoxDecoration(
