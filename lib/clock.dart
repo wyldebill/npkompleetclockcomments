@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:clock/clock_text.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,8 @@ import 'package:clock/clock_face.dart';
 typedef TimeProducer = DateTime Function();
 
 
-// aha, finally something that is stateful.  that means it will be updating ui and holding ui state
+// aha, finally something that is stateful. well, it's coming. it's not in this widget though.  this is step 1 though on that journey. notice also that
+// this class has almost no 'logic' in it
 class Clock extends StatefulWidget {
 
   // variables that aren't stateful, tracked go here. 
@@ -29,29 +29,30 @@ class Clock extends StatefulWidget {
          this.showHourHandleHeartShape = false,
          this.getCurrentTime = getSystemTime,
          this.updateDuration = const Duration(seconds: 1)});
-         //this.updateDuration = const Duration(milliseconds: 1)});
+ 
 
   static DateTime getSystemTime() {
     return new DateTime.now();
   }
 
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState() {   // a required method, kind of defines the class that WILL be tracking state. this is step 2 of the state journey
     return _Clock();
   }
 }
 
 
 // hmm, the _Clock is a class that represents the state/ui for the Clock class above.  notice that just about
-// all the logic is in this State derived _Clock class instead of the Clock class above.
+// all the logic is in this State derived _Clock class instead of the Clock class above.  this is step 3 in the state journey.
 class _Clock extends State<Clock> {
   Timer _timer;
   DateTime dateTime;
 
 
-  // standard class required to work with state.  similar to reactjs, need to make sure the state is
+  // create the initial state.  similar to reactjs, need to make sure the state is
   // initialized so the state object and the ui are tied together
   // the state properities that are tracked are dateTime and _timer.
+  // this is step 4 of the state journey.  
   @override
   void initState() {
     super.initState();
@@ -62,12 +63,15 @@ class _Clock extends State<Clock> {
   }
 
 
-  // QUESTION:  how does the timer parameter get resolved/injected here?
+  // QUESTION:  how does the timer parameter get resolved/injected here?  It is sent in from the .periodic() callback method, flutter provides it.
   void setTime(Timer timer) {
 
-    // to update the state you have to call the setState() method instead of modifiying dateTime directly.  just like react
+    // to update the state you have to call the setState() method instead of modifiying dateTime directly.  similar to react
     setState(() {
-      dateTime = new DateTime.now();
+      // this will change the tracked state, which will force a ui paint.  
+      // well not exactly like that, it will do the widget tree compare, find differences, and repaint only those with differences.
+      // this is step 5 and the final step in the flutter widget state journey.  
+      dateTime = new DateTime.now();  
     });
   }
 
@@ -78,26 +82,27 @@ class _Clock extends State<Clock> {
   }
 
   @override
+  // build is called when the state changes.  it is used to create the ui or update it on state changes.
   Widget build(BuildContext context) {
     return new AspectRatio(
       aspectRatio: 1.0,
-      child: (widget.showBellsAndLegs)?  // ternary evalutor, should we draw the bells and legs?  For this example, we don't draw the bells and legs
+      child: (widget.showBellsAndLegs)?  // ternary evalutor, should we draw the bells and legs?  For this example, we will skip drawing the bells and legs
       
       // this is skipped
        new Stack(
-          children: <Widget>[
-            new Container(
-              width: double.infinity,
-              child: new CustomPaint(
-                painter: new BellsAndLegsPainter(bellColor: widget.bellColor, legColor: widget.legColor),
-              ),
-            ),
+          // children: <Widget>[
+          //   new Container(
+          //     width: double.infinity,
+          //     child: new CustomPaint(
+          //       painter: new BellsAndLegsPainter(bellColor: widget.bellColor, legColor: widget.legColor),
+          //     ),
+          //   ),
 
-            buildClockCircle(context)
-          ]
+          //   buildClockCircle(context)
+          // ]
       ) : 
       
-      // ternary operator continues.  otherwise, just build the clock face/circle
+      // ternary operator continues.  build the clock face/circle
       buildClockCircle(context),
 
     );
@@ -110,7 +115,7 @@ class _Clock extends State<Clock> {
         shape: BoxShape.circle,
         color: widget.circleColor,
         boxShadow: [
-          new BoxShadow(               // there is a small dropshadow 
+          new BoxShadow(               // there is a small dropshadow around the red clock outline
             offset: new Offset(0.0, 2.0),
             blurRadius: 5.0,
           )
@@ -129,73 +134,4 @@ class _Clock extends State<Clock> {
 }
 
 
-class BellsAndLegsPainter extends CustomPainter{
-  final Color bellColor;
-  final Color legColor;
-  final Paint bellPaint;
-  final Paint legPaint;
 
-  BellsAndLegsPainter({this.bellColor = const Color(0xFF333333), this.legColor = const Color(0xFF555555)}):
-      bellPaint= new Paint(),
-      legPaint= new Paint() {
-      bellPaint.color= bellColor;
-      bellPaint.style= PaintingStyle.fill;
-
-    legPaint.color= legColor;
-    legPaint.style= PaintingStyle.stroke;
-    legPaint.strokeWidth= 10.0;
-    legPaint.strokeCap= StrokeCap.round;
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final radius = size.width / 2;
-    canvas.save();
-
-    canvas.translate(radius, radius);
-
-    //draw the handle
-    Path path = new Path();
-    path.moveTo(-60.0, -radius-10);
-    path.lineTo(-50.0, -radius-50);
-    path.lineTo(50.0, -radius-50);
-    path.lineTo(60.0, -radius-10);
-
-    canvas.drawPath(path, legPaint);
-
-    //draw right bell and left leg
-    canvas.rotate(2*pi/12);
-    drawBellAndLeg(radius, canvas);
-
-    //draw left bell and right leg
-    canvas.rotate(-4*pi/12);
-    drawBellAndLeg(radius, canvas);
-
-    canvas.restore();
-
-  }
-
-  //helps draw the leg and bell
-  void drawBellAndLeg(radius, canvas){
-    //bell
-    Path path1 = new Path();
-    path1.moveTo(-55.0, -radius-5);
-    path1.lineTo(55.0, -radius-5);
-    path1.quadraticBezierTo(0.0, -radius-75, -55.0, -radius-10);
-
-    //leg
-    Path path2= new Path();
-    path2.addOval(new Rect.fromCircle(center: new Offset(0.0, -radius-50), radius: 3.0));
-    path2.moveTo(0.0, -radius-50);
-    path2.lineTo(0.0, radius+20);
-
-    //draw the bell on top on the leg
-    canvas.drawPath(path2, legPaint);
-    canvas.drawPath(path1, bellPaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
-}

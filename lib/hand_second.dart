@@ -11,8 +11,8 @@ class SecondHandPainter extends CustomPainter{
   int seconds;
 
   SecondHandPainter({this.seconds}):
-        secondHandPaint= new Paint(),
-        secondHandPointsPaint= new Paint(){
+        secondHandPaint= Paint(),
+        secondHandPointsPaint= Paint(){
           secondHandPaint.color= Colors.red;
           secondHandPaint.style= PaintingStyle.stroke;
           secondHandPaint.strokeWidth= 2.0;
@@ -37,8 +37,8 @@ class SecondHandPainter extends CustomPainter{
 
     Path path1= new Path();  // the second hand 'paint' path.
     Path path2 = new Path();  // the circle paint paths, on the end of second hand and the circle in the middle of the clock
-    path1.moveTo(0.0, -radius );  // set up the origin to draw from.  so at 0 seconds, this is at the 12'oclock marker...
-    path1.lineTo(0.0, radius/3);  // at zero seconds, paths a line from top down thru the center and a bit past the center.
+    path1.moveTo(0.0, -radius );  // move the starting paint position.  so at 0 seconds, this is at the 12'oclock marker...
+    path1.lineTo(0.0, radius/3);  // at zero seconds, paths a line from top down thru the center and a bit past the center. if the radius was 100, we would draw to the (0,33) point.  get it?
 
     //path2.addOval(new Rect.fromCircle(radius: 8.0, center: new Offset(0.0, -radius)));  // me, put a circle out on the end of the minutehand. just because...
     path2.addOval(new Rect.fromCircle(radius: 5.0, center: new Offset(0.0, 0.0)));  // put the cirlce in the middle of the clock face, only so the second hand shows a rotation spot
@@ -47,13 +47,14 @@ class SecondHandPainter extends CustomPainter{
     canvas.drawPath(path2, secondHandPointsPaint);  // draw the second hand pivot point, a circle in middle of clock
 
 
-    canvas.drawShadow(path1, Colors.green, 1.0, false);  // draw a shadow under the minute hand.  i can't get this to work, or my dispalay doesn't show it even thought it's being drawn
+    canvas.drawShadow(path1, Colors.black87, 1.0, false);  // draw a shadow under the second hand.  i can't get this to work, or my dispalay doesn't show it even thought it's being drawn
 
     canvas.restore();  // put the canvas back to it's 'normal' oriention, restore orgin, etc.  reset
   }
 
   @override
   bool shouldRepaint(SecondHandPainter oldDelegate) {
-    return this.seconds != oldDelegate.seconds; // if the time has changed, the current time is different that the time passed in regardig seconds, repaint
+    return false;
+    //return this.seconds != oldDelegate.seconds; // if the time has changed, the current time is different that the time passed in regardig seconds, repaint
   }
 }

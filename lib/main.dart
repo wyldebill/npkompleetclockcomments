@@ -7,12 +7,12 @@ void main() => runApp(new MyApp());
 
 
 // the main application which contains the clock stuff.  the main application doesn't have
-// any VISIBLE state changes/UI changes so it derives from stateless widget.  BUT, and this is important MyApp contains other 
+// any VISIBLE state changes/UI changes so it derives from stateless widget.  BUT, and this is important, MyApp contains other 
 // widgets that WILL maintain state.
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-  // the build method is like the render() in react.  this is what the app creates
+  // the build method is like the render() in react.  this is where the app creates the UI
   @override
   Widget build(BuildContext context) {
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      // the entire app will consist of just this AppClock widget.  this could be a Scaffold holding 1+ widgets but it isn't here
+      // the entire app will consist of just this AppClock widget. there is no routing support in this app.
       home: new AppClock(),  
     );
   }

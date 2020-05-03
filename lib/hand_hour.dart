@@ -20,6 +20,7 @@ class HourHandPainter extends CustomPainter{
     // To draw hour hand
     canvas.save();
 
+    // move origin to the center of the clock face
     canvas.translate(radius, radius);
 
     //checks if hour is greater than 12 before calculating rotation
@@ -43,6 +44,8 @@ class HourHandPainter extends CustomPainter{
           radius*(20.0)/137.5, -radius + radius / 3, radius*(15.0)/137.5, -radius + radius / 4);
       path.quadraticBezierTo(radius*(3.5)/137.5, -radius + radius*(25.0)/137.5, 0.0, -radius + radius*15.0/137.5);
     }
+
+  
 
     //hour hand stem
     path.moveTo(-1.0, -radius+radius/4);

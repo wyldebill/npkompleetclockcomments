@@ -37,7 +37,9 @@ class ClockFace extends StatelessWidget{
           child: new Stack(
             
             // the stack has 3 children
-            // QUESTION: how are they arranged by default? vertically?
+            // QUESTION: how are they arranged by default? vertically? no, no no. you have this wrong.  stacks are more like layers that lie on top of each other.
+            // like a z-ordering.  so things can obscure or hide things drawn before them.  this is to give the correct visual of the second hand being the 'top' most
+            // clock hand.
             children: <Widget>[
              
 
@@ -46,7 +48,7 @@ class ClockFace extends StatelessWidget{
               new Container(
                 width: double.infinity,
                 height: double.infinity,
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),  // modify this to see the change in the clock face 
 
                 child:new CustomPaint(
                   painter: new ClockDialPainter(clockText: clockText),
