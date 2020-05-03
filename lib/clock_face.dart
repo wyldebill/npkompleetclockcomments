@@ -45,13 +45,13 @@ class ClockFace extends StatelessWidget{
 
               // 1...
               // first child is the clock dial, the tic marks for minutes/hours and the text numerals
-              new Container(
+               Container(
                 width: double.infinity,
                 height: double.infinity,
                 padding: const EdgeInsets.all(10.0),  // modify this to see the change in the clock face 
 
-                child:new CustomPaint(
-                  painter: new ClockDialPainter(clockText: clockText),
+                child: CustomPaint(
+                  painter:  ClockDialPainter(clockText: clockText),
                 ),
               ),
 
@@ -59,11 +59,11 @@ class ClockFace extends StatelessWidget{
               // 2....
               //centerpoint
               // center of the clock face, just a circle 15px? wide and high.  black in color
-              new Center(
+               Center(
                 child: new Container(
                   width: 15.0,
                   height: 15.0,
-                  decoration: new BoxDecoration(
+                  decoration:  BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.black,
                   ),
@@ -72,7 +72,7 @@ class ClockFace extends StatelessWidget{
 
               // 3.....
               // last child is the hands of the clock, the hour, minute and second hand
-              new ClockHands(dateTime:dateTime, showHourHandleHeartShape: showHourHandleHeartShape),
+               ClockHands(dateTime:dateTime, showHourHandleHeartShape: showHourHandleHeartShape),
               
 
             ],
